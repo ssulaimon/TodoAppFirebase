@@ -42,23 +42,16 @@ class CreateAccountFunction {
         firebaseStorage = FirebaseStorage.instance;
         TaskSnapshot taskSnapshot =
             await firebaseStorage.ref().child(user!.uid).putFile(file);
-        // ignore: unrelated_type_equality_checks
-        if (taskSnapshot == TaskState.success) {
-          userCredentials.user!.updatePhotoURL(
-            await taskSnapshot.ref.getDownloadURL(),
-          );
-          Get.snackbar(
-            'Successful',
-            'Account created',
-          );
-          return 'Account Created';
-        } else {
-          Get.snackbar(
-            'Task',
-            'Task error',
-          );
-          return 'Task error';
-        }
+        userCredentials.user!.updatePhotoURL(
+          await taskSnapshot.ref.getDownloadURL(),
+        );
+        await user.reload();
+        user = userCredentials.user;
+        Get.snackbar(
+          'Successful',
+          'Account created',
+        );
+        return 'Account Created';
       } else {
         Get.snackbar('Password', 'Password does not match');
         return 'password does not match';
