@@ -13,6 +13,7 @@ class ForgetPasswordScreen extends StatelessWidget {
     TextEditingController email = TextEditingController();
     return Scaffold(
       appBar: AppBar(
+        elevation: 0.0,
         backgroundColor: Colors.white,
         iconTheme: const IconThemeData(
           color: Colors.black,
