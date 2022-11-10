@@ -4,6 +4,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:todo_app_firebase/bottom_sheet/bottom_sheet_widget.dart';
+import 'package:todo_app_firebase/colors/colors.dart';
 import 'package:todo_app_firebase/constant/const.dart';
 import 'package:todo_app_firebase/screens/login_screen.dart';
 import 'package:todo_app_firebase/screens/task_list_screen.dart';
@@ -51,6 +52,7 @@ class HomePageScreen extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
+        backgroundColor: colors,
         onPressed: () {
           showBottomSheetWidget();
         },

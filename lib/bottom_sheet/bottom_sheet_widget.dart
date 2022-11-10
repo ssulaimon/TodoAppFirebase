@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todo_app_firebase/firebase_firestore/firebase_firestore_function.dart';
 
+import '../colors/colors.dart';
+
 void showBottomSheetWidget() {
   TextEditingController title = TextEditingController();
   TextEditingController todo = TextEditingController();
@@ -41,9 +43,21 @@ void showBottomSheetWidget() {
                 controller: title,
                 decoration: const InputDecoration(
                   hintText: 'Title',
-                  enabledBorder: OutlineInputBorder(),
-                  focusedBorder: OutlineInputBorder(),
-                  errorBorder: OutlineInputBorder(),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: colors,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: colors,
+                    ),
+                  ),
+                  errorBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: colors,
+                    ),
+                  ),
                 ),
               ),
               const SizedBox(
@@ -63,12 +77,28 @@ void showBottomSheetWidget() {
                 maxLines: 5,
                 decoration: const InputDecoration(
                   hintText: 'Task',
-                  enabledBorder: OutlineInputBorder(),
-                  focusedBorder: OutlineInputBorder(),
-                  errorBorder: OutlineInputBorder(),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: colors,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: colors,
+                    ),
+                  ),
+                  errorBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: colors,
+                    ),
+                  ),
                 ),
               ),
               ElevatedButton.icon(
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(
+                  colors,
+                )),
                 onPressed: () async {
                   if (_key.currentState!.validate()) {
                     await FirebaseFirestoreFunction(

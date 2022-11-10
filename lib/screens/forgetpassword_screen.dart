@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:get/get.dart';
 import 'package:todo_app_firebase/authentication/forget_password_function.dart';
+import 'package:todo_app_firebase/colors/colors.dart';
+import 'package:todo_app_firebase/controller/loading_controller.dart';
 import 'package:todo_app_firebase/text_validator/text_validator.dart';
 
 class ForgetPasswordScreen extends StatelessWidget {
@@ -11,6 +14,7 @@ class ForgetPasswordScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     GlobalKey<FormState> _key = GlobalKey<FormState>();
     TextEditingController email = TextEditingController();
+    final loading = Get.put(Loading());
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
@@ -31,7 +35,8 @@ class ForgetPasswordScreen extends StatelessWidget {
               const Text(
                 'RESET PASSWORD',
                 style: TextStyle(
-                  fontSize: 30,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
               const SizedBox(
@@ -43,19 +48,57 @@ class ForgetPasswordScreen extends StatelessWidget {
                 ),
                 controller: email,
                 decoration: const InputDecoration(
-                    hintText: 'Email',
-                    border: OutlineInputBorder(),
-                    enabledBorder: OutlineInputBorder()),
+                  contentPadding: EdgeInsets.all(10),
+                  hintText: 'Email',
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: colors,
+                    ),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: colors,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 20.0,
               ),
               ElevatedButton.icon(
-                  onPressed: () async {
-                    if (_key.currentState!.validate()) {
-                      String result = await ForgetPasswordFunction(email: email)
-                          .forgetPasswordFunction();
-                    }
-                  },
-                  icon: const Icon(Icons.send),
-                  label: const Text('Send reset link'))
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(
+                  colors,
+                )),
+                onPressed: () async {
+                  if (_key.currentState!.validate()) {
+                    loading.setState(
+                      state: true,
+                    );
+                    String result = await ForgetPasswordFunction(email: email)
+                        .forgetPasswordFunction();
+                    loading.setState(
+                      state: false,
+                    );
+                  }
+                },
+                icon: const Icon(Icons.send),
+                label: const Text(
+                  'Send reset link',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              GetX<Loading>(
+                  builder: (state) => state.loading.value == false
+                      ? const SizedBox()
+                      : const CircularProgressIndicator(
+                          color: colors,
+                        ))
             ],
           ),
         ),

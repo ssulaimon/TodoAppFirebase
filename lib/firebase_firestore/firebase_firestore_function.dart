@@ -18,10 +18,7 @@ class FirebaseFirestoreFunction {
       task: task.text,
       dateTime: DateTime.now(),
     );
-    var addTask = await firebaseFirestore
-        .collection(userId)
-        .doc()
-        .set(todoModel.tojson());
+    await firebaseFirestore.collection(userId).doc().set(todoModel.tojson());
     Get.snackbar('Task', 'Task added');
     try {} catch (e) {
       Get.snackbar('Erorr', e.toString());

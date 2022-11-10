@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:todo_app_firebase/colors/colors.dart';
 import 'package:todo_app_firebase/constant/const.dart';
 
 class TaskListScreen extends StatelessWidget {
@@ -42,14 +43,16 @@ class TaskListScreen extends StatelessWidget {
 
                 return Container(
                   decoration: BoxDecoration(
-                      color: Colors.blue,
-                      borderRadius: BorderRadius.circular(10)),
+                      color: colors, borderRadius: BorderRadius.circular(10)),
                   padding: const EdgeInsets.all(10),
                   margin: const EdgeInsets.all(10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Title: ${tasks['title']}'),
+                      Text(
+                        'Title: ${tasks['title']}',
+                        style: const TextStyle(color: white),
+                      ),
                       Text(
                         'Task: ${tasks['task']}',
                         style: const TextStyle(fontSize: 18),

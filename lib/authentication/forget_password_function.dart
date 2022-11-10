@@ -11,7 +11,7 @@ class ForgetPasswordFunction {
 
   Future<String> forgetPasswordFunction() async {
     try {
-      var sendLink = await FirebaseAuth.instance.sendPasswordResetEmail(
+      await FirebaseAuth.instance.sendPasswordResetEmail(
         email: email.text,
       );
 

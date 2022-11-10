@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:todo_app_firebase/authentication/create_account_function.dart';
+import 'package:todo_app_firebase/colors/colors.dart';
 import 'package:todo_app_firebase/controller/image_picker_controller.dart';
+import 'package:todo_app_firebase/controller/loading_controller.dart';
 import 'package:todo_app_firebase/text_validator/text_validator.dart';
 
 class CreateAccountScreen extends StatelessWidget {
@@ -16,6 +18,7 @@ class CreateAccountScreen extends StatelessWidget {
     TextEditingController repassword = TextEditingController();
     TextEditingController name = TextEditingController();
     GlobalKey<FormState> _key = GlobalKey<FormState>();
+    final loading = Get.put(Loading());
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -70,48 +73,60 @@ class CreateAccountScreen extends StatelessWidget {
                   );
                 }),
                 const SizedBox(
-                  height: 10,
+                  height: 20,
                 ),
                 TextFormField(
                   controller: name,
                   validator: (value) => textValidatorName(value),
                   decoration: const InputDecoration(
+                      contentPadding: EdgeInsets.all(10),
                       hintText: 'Name',
-                      border: OutlineInputBorder(),
-                      enabledBorder: OutlineInputBorder()),
+                      border: OutlineInputBorder(
+                          borderSide: BorderSide(color: colors)),
+                      enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: colors))),
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 20,
                 ),
                 TextFormField(
                   controller: email,
                   validator: (value) => textValidatoraEmail(value),
                   decoration: const InputDecoration(
+                      contentPadding: EdgeInsets.all(10),
                       hintText: 'Email',
-                      border: OutlineInputBorder(),
-                      enabledBorder: OutlineInputBorder()),
+                      border: OutlineInputBorder(
+                          borderSide: BorderSide(color: colors)),
+                      enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: colors))),
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 20,
                 ),
                 TextFormField(
                   controller: password,
                   validator: (value) => textValidatorPassword(value),
                   decoration: const InputDecoration(
+                      contentPadding: EdgeInsets.all(10),
                       hintText: 'Password',
-                      border: OutlineInputBorder(),
-                      enabledBorder: OutlineInputBorder()),
+                      border: OutlineInputBorder(
+                          borderSide: BorderSide(color: colors)),
+                      enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: colors))),
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 20,
                 ),
                 TextFormField(
                   controller: repassword,
                   validator: (value) => textValidatorPassword(value),
                   decoration: const InputDecoration(
+                      contentPadding: EdgeInsets.all(10),
                       hintText: 'Confirm password',
-                      border: OutlineInputBorder(),
-                      enabledBorder: OutlineInputBorder()),
+                      border: OutlineInputBorder(
+                          borderSide: BorderSide(color: colors)),
+                      enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: colors))),
                 ),
                 const SizedBox(
                   height: 10,
@@ -119,10 +134,18 @@ class CreateAccountScreen extends StatelessWidget {
                 GetX<ImagePickerController>(
                   builder: (image) {
                     return ElevatedButton.icon(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(
+                          colors,
+                        ),
+                      ),
                       onPressed: image.image.value == null
                           ? () {}
                           : () async {
                               if (_key.currentState!.validate()) {
+                                loading.setState(
+                                  state: true,
+                                );
                                 String result = await CreateAccountFunction(
                                         email: email,
                                         name: name,
@@ -130,6 +153,9 @@ class CreateAccountScreen extends StatelessWidget {
                                         repassword: repassword,
                                         file: image.image.value!)
                                     .createAccount();
+                                loading.setState(
+                                  state: false,
+                                );
                               }
                             },
                       icon: const Icon(Icons.person_add),
@@ -139,6 +165,15 @@ class CreateAccountScreen extends StatelessWidget {
                     );
                   },
                 ),
+                const SizedBox(
+                  height: 10,
+                ),
+                GetX<Loading>(
+                    builder: (state) => state.loading.value == false
+                        ? const SizedBox()
+                        : const CircularProgressIndicator(
+                            color: colors,
+                          ))
               ],
             ),
           ),
